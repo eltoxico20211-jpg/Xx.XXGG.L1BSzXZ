@@ -210,7 +210,7 @@ IsoneUI.Windows = {
     CurrentWindow = nil,
     Create = function(self, TitleText)
         local Screen = Create("ScreenGui", {Name = "Isone_Root", Parent = IsoneUI.Services.CoreGui, IgnoreGuiInset = true, ResetOnSpawn = false})
-        local Main = Create("Frame", {Name = "MainFrame", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.DarkRed, Visible = false, BackgroundTransparency = 0, Position = UDim2.new(0.5, -250, 0.5, -160), Size = UDim2.new(0, 500, 0, 320), ClipsDescendants = true})
+        local Main = Create("Frame", {Name = "MainFrame", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.DarkRed, Visible = false, BackgroundTransparency = 0, Position = UDim2.new(0.5, -250, 0.5, -160), Size = UDim2.new(0.3, 0, 0.4, 0), ClipsDescendants = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = Main})
         Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Main})
         Create("UIAspectRatioConstraint", {AspectRatio = 1.562, AspectType = "ScaleWithParentSize", Parent = Main})
