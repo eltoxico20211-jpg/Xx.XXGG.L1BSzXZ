@@ -1,10 +1,10 @@
 local IsoneUI = {
     Theme = {
-        Main = Color3.fromRGB(15, 15, 17),
-        Secondary = Color3.fromRGB(15, 15, 18),
+        Main = Color3.fromRGB(10, 10, 10),
+        Secondary = Color3.fromRGB(15, 15, 15),
         DarkRed = Color3.fromRGB(0, 0, 0),
         ElementsDark = Color3.fromRGB(20, 20, 20),
-        Accent = Color3.fromRGB(0, 228, 234),
+        Accent = Color3.fromRGB(255, 0, 0),
         Text = Color3.fromRGB(255, 255, 255),
         Placeholder = Color3.fromRGB(150, 150, 150),
         Stroke = Color3.fromRGB(40, 40, 45),
@@ -34,7 +34,7 @@ IsoneUI.Icons = {
     ["Sword"] = "rbxassetid://120479974631658",
     ["Map-Pin"] = "rbxassetid://112046003587634",
     ["Webh"] = "rbxassetid://103022949626394",
-    ["Logo"] = "rbxassetid://127347158782830",
+    ["Logo"] = "rbxassetid://134754437419894",
 }
 
 local function Create(class, props)
@@ -111,17 +111,17 @@ IsoneUI.ToggleUI = function(self, state)
     
     if state then
         Main.Visible = true
-        Main.Position = UDim2.new(0.5, -250, 1.2, 0) 
+        Main.Position = UDim2.new(0.5, -200, 1.5, 0) 
         Main.BackgroundTransparency = 0
 
         self:Tween(Main, 0.5, {
-            Position = UDim2.new(0.5, -250, 0.5, -160), 
+            Position = UDim2.new(0.5, -200, 0.5, -130), 
             BackgroundTransparency = 0
         })
         OpenBtn.Visible = false
     else
         local Anim = self:Tween(Main, 0.4, {
-            Position = UDim2.new(0.5, -250, 1.2, 0),
+            Position = UDim2.new(0.5, -200, 1.5, 0),
             BackgroundTransparency = 1
         })
         
@@ -176,21 +176,23 @@ function IsoneUI:StartIntro(Callback)
     self:Tween(LoadingLabel, 0.5, {TextTransparency = 0})
     self:Tween(BarBg, 0.5, {BackgroundTransparency = 0})
 
-    local Rot = self.Services.Run.RenderStepped:Connect(function(dt) Icon.Rotation = Icon.Rotation + (250 * dt) end)
-    task.spawn(function()
-        local d = 1
-        while Screen.Parent do
-            LoadingLabel.Text = "Loading" .. string.rep(".", d)
-            d = d >= 3 and 1 or d + 1
-            task.wait(0.4)
-        end
-    end)
+    local IsRotating = true
+task.spawn(function()
+    while IsRotating and Screen.Parent do
+        local Step = self.Services.TS:Create(Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+            Rotation = Icon.Rotation + 180
+        })
+        Step:Play()
+
+        task.wait(1.1) 
+    end
+end)
 
     local TweenFill = self.Services.TS:Create(Fill, TweenInfo.new(2.5, Enum.EasingStyle.Quart), {Size = UDim2.new(1, 0, 1, 0)})
     TweenFill:Play()
 
     TweenFill.Completed:Connect(function()
-        Rot:Disconnect()
+        IsRotating = false
         local Out = self:Tween(Main, 0.4, {Size = UDim2.new(0, 320, 0, 200), BackgroundTransparency = 1})
         self:Tween(Stroke, 0.3, {Transparency = 1})
         self:Tween(Icon, 0.3, {ImageTransparency = 1})
@@ -211,15 +213,15 @@ IsoneUI.Windows = {
     Create = function(self, TitleText)
         local Screen = Create("ScreenGui", {Name = "Isone_Root", Parent = IsoneUI.Services.CoreGui, IgnoreGuiInset = true, ResetOnSpawn = false})
         local Main = Create("Frame", {Name = "MainFrame", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.DarkRed, Visible = false, BackgroundTransparency = 0, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260), ClipsDescendants = true})
-        Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = Main})
+        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
         Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Main})
         Create("UIAspectRatioConstraint", {AspectRatio = 1.538, AspectType = "ScaleWithParentSize", Parent = Main})
         
         local Header = Create("Frame", {Name = "Header", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Size = UDim2.new(1, 0, 0, 35)})
-        Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = Header})
+        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Header})
         local Title = Create("TextLabel", {Name = "Title", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(0, 12, 0, 0), Size = UDim2.new(0.5, 0, 1, 0), Font = "GothamBold", Text = TitleText, TextColor3 = IsoneUI.Theme.Text, TextSize = 14, TextXAlignment = "Left"})
 
-        local OpenBtn = Create("TextButton", {Name = "OpenBtn", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.Secondary, BackgroundTransparency = 0.3, Size = UDim2.new(0.15, 30, 0.05, 0), Position = UDim2.new(0.5, 0, 0.05, 0), AnchorPoint = Vector2.new(0.5, 0.5), Visible = false, Text = TitleText, Font = "GothamBold", TextColor3 = IsoneUI.Theme.Accent, TextSize = 13, TextScaled = true})
+        local OpenBtn = Create("TextButton", {Name = "OpenBtn", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.Secondary, BackgroundTransparency = 0.3, Size = UDim2.new(0.15, 40, 0.05, 0), Position = UDim2.new(0.5, 0, 0.05, 0), AnchorPoint = Vector2.new(0.5, 0.5), Visible = false, Text = TitleText, Font = "GothamBold", TextColor3 = IsoneUI.Theme.Accent, TextSize = 13, TextScaled = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 15), Parent = OpenBtn}); Create("UIStroke", {Color = IsoneUI.Theme.Accent, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = OpenBtn})
          Create("UIAspectRatioConstraint", {Parent = OpenBtn, AspectRatio = 2.667})
         IsoneUI:MakeDraggable(OpenBtn, OpenBtn)
@@ -229,21 +231,15 @@ IsoneUI.Windows = {
 
         local Close = Create("TextButton", {Name = "Close", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -30, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "×", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20})
         local Min = Create("TextButton", {Name = "Min", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -60, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "-", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20})
-        local Max = Create("TextButton", {Name = "Max", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -90, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "▢", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 14})
 
         Close.MouseButton1Click:Connect(function() Screen:Destroy() end)
         Min.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(false) end)
 OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
 
-        local Expanded = false
-        Max.MouseButton1Click:Connect(function()
-            Expanded = not Expanded
-            IsoneUI:Tween(Main, 0.3, {Size = Expanded and UDim2.new(1, 0, 1, 0) or UDim2.new(0, 500, 0, 320), Position = Expanded and UDim2.new(0, 0, 0, 0) or UDim2.new(0.5, -250, 0.5, -160)})
-        end)
-
         IsoneUI:MakeDraggable(Main, Header)
+
         local Sidebar = Create("Frame", {Name = "Sidebar", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Position = UDim2.new(0, 0, 0, 37), Size = UDim2.new(0, 130, 1, -38)})
-        Create("UICorner", {CornerRadius = UDim.new(0, 0), Parent = Sidebar})
+        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Sidebar})
         local Container = Create("Frame", {Name = "Container", Parent = Main, BackgroundTransparency = 1, Position = UDim2.new(0, 140, 0, 40), Size = UDim2.new(1, -145, 1, -45)})
 
         IsoneUI:StartIntro(function()
@@ -327,8 +323,8 @@ end
 local IconData = IsoneUI.Icons[IconName] or "0"
 local IconID = string.find(tostring(IconData), "rbxassetid://") and IconData or "rbxassetid://"..tostring(IconData)
         
-        local TabBtn = Create("TextButton", {Name = Name.."_Tab", Parent = TabHolder, BackgroundColor3 = IsoneUI.Theme.Main, BackgroundTransparency = 0.7, Size = UDim2.new(0.9, 0, 0, 32), Font = "GothamMedium", Text = "", TextColor3 = IsoneUI.Theme.Placeholder, TextSize = 13, AutoButtonColor = false, ZIndex = 10})
-        Create("UICorner", {CornerRadius = UDim.new(0, 5), Parent = TabBtn})
+        local TabBtn = Create("TextButton", {Name = Name.."_Tab", Parent = TabHolder, BackgroundColor3 = IsoneUI.Theme.Main, BackgroundTransparency = 0, Size = UDim2.new(0.9, 0, 0, 32), Font = "GothamMedium", Text = "", TextColor3 = IsoneUI.Theme.Placeholder, TextSize = 13, AutoButtonColor = false, ZIndex = 10})
+        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = TabBtn})
 
         local Icon = Create("ImageLabel", {
         Name = "Icon",
@@ -393,7 +389,7 @@ IsoneUI.Elements = {
             Text = "",
             ClipsDescendants = true
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = ButtonFrame})
+        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = ButtonFrame})
         
         local Text = Create("TextLabel", {
             Parent = ButtonFrame,
@@ -450,7 +446,7 @@ IsoneUI.Elements.CreateToggle = function(self, Tab, Name, Default, Callback)
         Text = "",
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = ToggleFrame})
+    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = ToggleFrame})
 
     local Text = Create("TextLabel", {
         Parent = ToggleFrame,
@@ -509,7 +505,7 @@ IsoneUI.Elements.CreateSlider = function(self, Tab, Name, Min, Max, Default, Cal
         BackgroundTransparency = 0,
         Size = UDim2.new(0.95, 0, 0, 45),
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = SliderFrame})
+    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = SliderFrame})
 
     local Text = Create("TextLabel", {
         Parent = SliderFrame,
@@ -580,6 +576,27 @@ IsoneUI.Elements.CreateSlider = function(self, Tab, Name, Min, Max, Default, Cal
     return SliderFrame
 end
 
+function IsoneUI:AddTextTitle(ParentPage, Text)
+    local TextTitle = Create("TextLabel", {
+        Name = Text .. "_Title",
+        Parent = ParentPage,
+        BackgroundTransparency = 1,
+        Size = UDim2.new(1, 0, 0, 30),
+        Font = Enum.Font.GothamBold,
+        Text = Text:upper(),
+        TextColor3 = self.Theme.Text,
+        TextSize = 14,
+        TextXAlignment = Enum.TextXAlignment.Left,
+    })
+
+    Create("UIPadding", {
+        Parent = TextTitle,
+        PaddingLeft = UDim.new(0, 10)
+    })
+
+    return TextTitle
+end
+
 IsoneUI.Elements.CreateDropdown = function(self, Tab, Name, Options, Callback)
     local Callback = Callback or function() end
     local Dropped = false
@@ -593,7 +610,7 @@ IsoneUI.Elements.CreateDropdown = function(self, Tab, Name, Options, Callback)
         Size = UDim2.new(0.95, 0, 0, 38),
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = DropdownFrame})
+    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = DropdownFrame})
 
     local DropBtn = Create("TextButton", {
         Parent = DropdownFrame,
@@ -661,7 +678,7 @@ IsoneUI.Elements.CreateDropdown = function(self, Tab, Name, Options, Callback)
             TextSize = 12,
             AutoButtonColor = false
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = OptBtn})
+        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = OptBtn})
         Create("UIStroke", {Color = IsoneUI.Theme.Accent, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = OptBtn})
 
         OptBtn.MouseButton1Click:Connect(function()
@@ -695,7 +712,7 @@ IsoneUI.Elements.CreateInput = function(self, Tab, Name, Placeholder, Callback)
         BackgroundTransparency = 0,
         Size = UDim2.new(0.95, 0, 0, 38)
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = InputFrame})
+    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = InputFrame})
 
     local Text = Create("TextLabel", {
         Parent = InputFrame,
@@ -753,7 +770,7 @@ IsoneUI.Elements.CreateColorPicker = function(self, Tab, Name, Default, Callback
         Size = UDim2.new(0.95, 0, 0, 38),
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 4), Parent = PickerFrame})
+    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = PickerFrame})
 
     local MainBtn = Create("TextButton", {
         Parent = PickerFrame,
@@ -841,6 +858,6 @@ IsoneUI.Elements.CreateColorPicker = function(self, Tab, Name, Default, Callback
     return PickerFrame
 end
 
-print("--- ISONEUI CARGADO CORRECTAMENTE ---")
+print("UI LOADED SUCCESSFULLY")
 
 return IsoneUI
