@@ -389,7 +389,7 @@ IsoneUI.Elements = {
             Text = "",
             ClipsDescendants = true
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = ButtonFrame})
+        Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = ButtonFrame})
         
         local Text = Create("TextLabel", {
             Parent = ButtonFrame,
@@ -446,7 +446,7 @@ IsoneUI.Elements.CreateToggle = function(self, Tab, Name, Default, Callback)
         Text = "",
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = ToggleFrame})
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = ToggleFrame})
 
     local Text = Create("TextLabel", {
         Parent = ToggleFrame,
@@ -505,7 +505,7 @@ IsoneUI.Elements.CreateSlider = function(self, Tab, Name, Min, Max, Default, Cal
         BackgroundTransparency = 0,
         Size = UDim2.new(0.95, 0, 0, 45),
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = SliderFrame})
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = SliderFrame})
 
     local Text = Create("TextLabel", {
         Parent = SliderFrame,
@@ -610,7 +610,7 @@ IsoneUI.Elements.CreateDropdown = function(self, Tab, Name, Options, Callback)
         Size = UDim2.new(0.95, 0, 0, 38),
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = DropdownFrame})
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = DropdownFrame})
 
     local DropBtn = Create("TextButton", {
         Parent = DropdownFrame,
@@ -678,7 +678,7 @@ IsoneUI.Elements.CreateDropdown = function(self, Tab, Name, Options, Callback)
             TextSize = 12,
             AutoButtonColor = false
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = OptBtn})
+        Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = OptBtn})
         Create("UIStroke", {Color = IsoneUI.Theme.Accent, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = OptBtn})
 
         OptBtn.MouseButton1Click:Connect(function()
@@ -712,7 +712,7 @@ IsoneUI.Elements.CreateInput = function(self, Tab, Name, Placeholder, Callback)
         BackgroundTransparency = 0,
         Size = UDim2.new(0.95, 0, 0, 38)
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = InputFrame})
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = InputFrame})
 
     local Text = Create("TextLabel", {
         Parent = InputFrame,
@@ -739,7 +739,7 @@ IsoneUI.Elements.CreateInput = function(self, Tab, Name, Placeholder, Callback)
         TextSize = 12,
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 12), Parent = Box})
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Box})
     Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = Box})
 
     Box.Focused:Connect(function()
@@ -770,7 +770,7 @@ IsoneUI.Elements.CreateColorPicker = function(self, Tab, Name, Default, Callback
         Size = UDim2.new(0.95, 0, 0, 38),
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = PickerFrame})
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = PickerFrame})
 
     local MainBtn = Create("TextButton", {
         Parent = PickerFrame,
