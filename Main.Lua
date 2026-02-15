@@ -229,12 +229,10 @@ IsoneUI.Windows = {
         IsoneUI.Main = Main
         IsoneUI.OpenBtn = OpenBtn
 
-        local Close = Create("TextButton", {Name = "Close", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -30, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "×", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20})
-        Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Close})
-        local Min = Create("TextButton", {Name = "Min", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -60, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "-", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20})
-        Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Min})
-
+        local Close = Create("TextButton", {Name = "Close", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -30, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "×", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20}
+        local Min = Create("TextButton", {Name = "Min", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -60, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "-", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20}
         Close.MouseButton1Click:Connect(function() Screen:Destroy() end)
+
         Min.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(false) end)
 OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
 
