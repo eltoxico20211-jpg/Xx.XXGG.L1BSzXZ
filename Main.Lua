@@ -144,7 +144,7 @@ function IsoneUI:StartIntro(Callback)
         BackgroundTransparency = 1,
         ClipsDescendants = true
     })
-    Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Main})
     local Stroke = Create("UIStroke", {Color = self.Theme.Stroke, Thickness = 1, Transparency = 1, Parent = Main})
 
     local Icon = Create("ImageLabel", {
