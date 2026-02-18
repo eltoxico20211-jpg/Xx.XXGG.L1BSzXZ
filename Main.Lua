@@ -355,7 +355,7 @@ local IconID = string.find(tostring(IconData), "rbxassetid://") and IconData or 
         
         local TabPage = Create("ScrollingFrame", {Name = Name.."_Page", Parent = Window.Container, BackgroundTransparency = 1, Size = UDim2.new(1, 0, 1, 0), Visible = false, ScrollBarThickness = 0, CanvasSize = UDim2.new(0, 0, 0, 0), AutomaticCanvasSize = Enum.AutomaticSize.Y})
         Create("UIListLayout", {Parent = TabPage, Padding = UDim.new(0, 7), HorizontalAlignment = "Center", SortOrder = Enum.SortOrder.LayoutOrder})
-        Create("UIPadding", {Parent = TabPage, PaddingTop = UDim.new(0, 8), PaddingBottom = UDim.new(0, 8)})
+        Create("UIPadding", {Parent = TabPage, PaddingTop = UDim.new(0, 10), PaddingBottom = UDim.new(0, 10)})
         
         TabBtn.MouseButton1Click:Connect(function()
             if IsoneUI.Tabs.CurrentTab == TabPage then return end
