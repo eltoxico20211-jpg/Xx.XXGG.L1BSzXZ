@@ -153,7 +153,7 @@ function Noxium:CreateWindow(TitleText)
             local Tgl = Create("TextButton", {
                 Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
                 BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
-                Text = text .. ": OFF", Font = "GothamBold", TextColor3 = Color3.fromRGB(255, 100, 100), TextSize = 13
+                Text = text .. ": OFF", Font = "GothamBold", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 13
             })
             Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
             Tgl.MouseButton1Click:Connect(function()
