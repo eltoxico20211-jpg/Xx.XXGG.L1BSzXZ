@@ -149,20 +149,26 @@ function Noxium:CreateWindow(TitleText)
         end
 
         function ElementHandler:Toggle(text, callback)
-            local state = false
-            local Tgl = Create("TextButton", {
-                Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
-                BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
-                Text = text .. ": OFF", Font = "GothamBold", TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 13
-            })
-            Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
-            Tgl.MouseButton1Click:Connect(function()
-                state = not state
-                Tgl.Text = text .. (state and ": ON" or ": OFF")
-                Tgl.TextColor3 = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 255, 255)
-                callback(state)
-            end)
-        end
+    local state = false
+    local Tgl = Create("TextButton", {
+        Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
+        BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
+        Text = text, Font = "GothamBold", 
+        TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 13
+    })
+    
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
+    
+    Tgl.MouseButton1Click:Connect(function()
+        state = not state
+
+        Tgl.Text = state and text .. ": ON" or text
+
+        Tgl.TextColor3 = state and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 255, 255)
+        
+        callback(state)
+    end)
+end
 
         return ElementHandler
     end
