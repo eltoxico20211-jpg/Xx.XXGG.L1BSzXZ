@@ -143,45 +143,48 @@ function Noxium:CreateWindow(TitleText)
             Btn.MouseButton1Click:Connect(callback)
         end
 
-        function ElementHandler:Toggle(text, callback)
-            local state = false
-            local Tgl = Create("TextButton", {
-                Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
-                BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
-                Text = text, Font = "GothamBold", 
-                TextColor3 = Theme.Text, TextSize = 13
-            })
-            
-            Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
+    function ElementHandler:Toggle(text, callback)
+    local state = false
+    local Tgl = Create("TextButton", {
+        Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
+        BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
+        Text = text, Font = "GothamBold", 
+        TextColor3 = Theme.Text, TextSize = 13,
+        AutoButtonColor = false -- Evita que Roblox cambie colores por su cuenta
+    })
+    
+    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
 
-            local TglStroke = Create("UIStroke", {
-                Parent = Tgl,
-                Color = Theme.Black,
-                Thickness = 1,
-                ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-                Enabled = false
-            })
+    -- Forzamos el Stroke al borde del botón
+    local TglStroke = Create("UIStroke", {
+        Parent = Tgl,
+        Color = Theme.Black,
+        Thickness = 1.5,
+        ApplyStrokeMode = Enum.ApplyStrokeMode.Border, -- Esto lo mantiene en el borde
+        Enabled = false
+    })
 
-            local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
-                Color = Theme.Accent
-            })
-            
-            Tgl.MouseButton1Click:Connect(function()
-                state = not state
-                TglStroke.Enabled = state
-                
-                if state then
-                    Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
-                    StrokeTween:Play()
-                else
-                    Tgl.TextColor3 = Theme.Text
-                    StrokeTween:Cancel()
-                    TglStroke.Color = Color3.fromRGB(255, 255, 255)
-                end
-                
-                callback(state)
-            end)
+    local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
+        Color = Theme.Accent
+    })
+    
+    Tgl.MouseButton1Click:Connect(function()
+        state = not state
+        TglStroke.Enabled = state
+        
+        if state then
+            Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
+            StrokeTween:Play()
+        else
+            Tgl.TextColor3 = Theme.Text
+            StrokeTween:Cancel()
+            -- CORRECCIÓN: Regresamos a Negro, no a Blanco
+            TglStroke.Color = Theme.Black
         end
+        
+        callback(state)
+    end)
+end
 
         return ElementHandler
     end
