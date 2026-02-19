@@ -103,7 +103,8 @@ function Noxium:CreateWindow(TitleText)
         local Page = Create("ScrollingFrame", {
             Parent = Pages, Size = UDim2.new(1, 0, 1, 0),
             BackgroundTransparency = 1, Visible = false, ScrollBarThickness = 0, 
-            CanvasSize = UDim2.new(0,0,0,0), AutomaticCanvasSize = "Y"
+            CanvasSize = UDim2.new(0,0,0,0), AutomaticCanvasSize = "Y",
+            ClipsDescendants = false
         })
 
         Create("UIPadding", {
