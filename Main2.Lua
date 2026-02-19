@@ -150,37 +150,39 @@ function Noxium:CreateWindow(TitleText)
 
         function ElementHandler:Toggle(text, callback)
     local state = false
+    -- Usamos Noxium.Theme directamente para que NUNCA sea nil
     local Tgl = Create("TextButton", {
         Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
         BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
         Text = text, Font = "GothamBold", 
-        TextColor3 = Color3.fromRGB(255, 255, 255), TextSize = 13
+        TextColor3 = Noxium.Theme.Text, TextSize = 13
     })
     
     Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
 
     local TglStroke = Create("UIStroke", {
         Parent = Tgl,
-        Color = Color3.fromRGB(255, 255, 255),
+        Color = Noxium.Theme.Black,
         Thickness = 1.6,
         Enabled = false
-      })
+    })
 
+    -- Efecto Sine como el de tu Main
     local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
-        Color = Color3.fromRGB(0, 255, 0) -- Va de blanco/verde a este color
+        Color = Noxium.Theme.Accent
     })
     
     Tgl.MouseButton1Click:Connect(function()
         state = not state
-
         TglStroke.Enabled = state
+        
         if state then
             Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
             StrokeTween:Play()
         else
-            Tgl.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Tgl.TextColor3 = Noxium.Theme.Text
             StrokeTween:Cancel()
-            TglStroke.Color = Color3.fromRGB(255, 255, 255) -- Reset al apagar
+            TglStroke.Color = Color3.fromRGB(255, 255, 255)
         end
         
         callback(state)
