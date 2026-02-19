@@ -36,8 +36,8 @@ function Noxium:CreateWindow(TitleText)
     local MainGrad = Create("UIGradient", {
         Parent = Main, Rotation = 45,
         Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, self.Theme.Accent),
-            ColorSequenceKeypoint.new(1, self.Theme.Black)
+            ColorSequenceKeypoint.new(0, Noxium.Theme.Accent),
+            ColorSequenceKeypoint.new(1, Noxium.Theme.Black)
         })
     })
 
@@ -46,13 +46,13 @@ function Noxium:CreateWindow(TitleText)
         Name = "Title", Parent = Main, Size = UDim2.new(1, -40, 0, 35),
         Position = UDim2.new(0, 10, 0, 3), BackgroundTransparency = 1,
         Text = TitleText, Font = "GothamBold", TextSize = 14, 
-        TextColor3 = self.Theme.Text, TextXAlignment = "Left"
+        TextColor3 = Noxium.Theme.Text, TextXAlignment = "Left"
     })
 
     local ToggleBtn = Create("TextButton", {
         Name = "ToggleBtn", Parent = Main, Size = UDim2.new(0, 30, 0, 30),
         Position = UDim2.new(1, -35, 0, 5), BackgroundTransparency = 1,
-        Text = "▲", Font = "GothamBold", TextSize = 14, TextColor3 = self.Theme.Text, ZIndex = 10
+        Text = "▲", Font = "GothamBold", TextSize = 14, TextColor3 = Noxium.Theme.Text, ZIndex = 10
     })
 
     local TabHolder = Create("Frame", {
