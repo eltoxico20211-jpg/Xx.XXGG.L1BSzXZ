@@ -105,6 +105,15 @@ function Noxium:CreateWindow(TitleText)
             BackgroundTransparency = 1, Visible = false, ScrollBarThickness = 0, 
             CanvasSize = UDim2.new(0,0,0,0), AutomaticCanvasSize = "Y"
         })
+
+        Create("UIPadding", {
+        Parent = Page,
+        PaddingTop = UDim.new(0, 5),
+        PaddingBottom = UDim.new(0, 5),
+        PaddingLeft = UDim.new(0, 5),
+        PaddingRight = UDim.new(0, 5)
+    })
+
         Create("UIListLayout", {Parent = Page, Padding = UDim.new(0, 5), HorizontalAlignment = "Center"})
 
         local TabBtn = Create("TextButton", {
