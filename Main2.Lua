@@ -117,7 +117,7 @@ function Noxium:CreateWindow(TitleText)
             BackgroundColor3 = Noxium.Theme.Black, BackgroundTransparency = 0.6,
             Text = name, Font = "GothamBold", TextSize = 11, TextColor3 = Noxium.Theme.Placeholder
         })
-        Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = TabBtn})
+        Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = TabBtn})
 
         TabBtn.MouseButton1Click:Connect(function()
             if CurrentTab then
@@ -144,7 +144,7 @@ function Noxium:CreateWindow(TitleText)
                 BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
                 Text = text, Font = "GothamBold", TextColor3 = Noxium.Theme.Text, TextSize = 13
             })
-            Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Btn})
+            Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Btn})
             Btn.MouseButton1Click:Connect(callback)
         end
 
@@ -155,7 +155,7 @@ function Noxium:CreateWindow(TitleText)
                 BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
                 Text = text .. ": OFF", Font = "GothamBold", TextColor3 = Color3.fromRGB(255, 100, 100), TextSize = 13
             })
-            Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Tgl})
+            Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
             Tgl.MouseButton1Click:Connect(function()
                 state = not state
                 Tgl.Text = text .. (state and ": ON" or ": OFF")
