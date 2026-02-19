@@ -120,22 +120,36 @@ function Noxium:CreateWindow(TitleText)
         })
         Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = TabBtn})
 
+       local TabStroke = Create("UIStroke", {
+        Parent = TabBtn,
+        Color = Theme.Accent,
+        Thickness = 1.5,
+        ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+        Enabled = false
+    }) 
+
         TabBtn.MouseButton1Click:Connect(function()
-            if CurrentTab then
-                CurrentTab.Page.Visible = false
-                TS:Create(CurrentTab.Btn, TweenInfo.new(0.3), {TextColor3 = Theme.Placeholder, BackgroundTransparency = 0.6}):Play()
-            end
-            Page.Visible = true
-            CurrentTab = {Page = Page, Btn = TabBtn}
-            TS:Create(TabBtn, TweenInfo.new(0.3), {TextColor3 = Theme.Text, BackgroundTransparency = 0.2}):Play()
-        end)
+        if CurrentTab then
+            CurrentTab.Page.Visible = false
+
+            CurrentTab.Stroke.Enabled = false
+            TS:Create(CurrentTab.Btn, TweenInfo.new(0.3), {TextColor3 = Theme.Placeholder, BackgroundTransparency = 0.6}):Play()
+        end
+
+        Page.Visible = true
+        TabStroke.Enabled = true
+        CurrentTab = {Page = Page, Btn = TabBtn, Stroke = TabStroke}
+        
+        TS:Create(TabBtn, TweenInfo.new(0.3), {TextColor3 = Theme.Text, BackgroundTransparency = 0.2}):Play()
+    end)
 
         if not CurrentTab then
-            Page.Visible = true
-            CurrentTab = {Page = Page, Btn = TabBtn}
-            TabBtn.TextColor3 = Theme.Text
-            TabBtn.BackgroundTransparency = 0.2
-        end
+        Page.Visible = true
+        TabStroke.Enabled = true
+        CurrentTab = {Page = Page, Btn = TabBtn, Stroke = TabStroke}
+        TabBtn.TextColor3 = Theme.Text
+        TabBtn.BackgroundTransparency = 0.2
+    end
 
         local ElementHandler = {}
 
