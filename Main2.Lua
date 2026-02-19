@@ -31,7 +31,7 @@ function Noxium:CreateWindow(TitleText)
         Active = true, ClipsDescendants = true
     })
     Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
-    local Stroke = Create("UIStroke", {Color = self.Theme.Accent, Thickness = 1.5, Parent = Main})
+    local Stroke = Create("UIStroke", {Color = Noxium.Theme.Accent, Thickness = 1.5, Parent = Main})
 
     local MainGrad = Create("UIGradient", {
         Parent = Main, Rotation = 45,
