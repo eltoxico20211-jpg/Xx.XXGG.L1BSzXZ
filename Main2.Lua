@@ -158,7 +158,7 @@ function Noxium:CreateWindow(TitleText)
                 Parent = Tgl,
                 Color = Theme.Black,
                 Thickness = 1,
-                ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
+                ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                 Enabled = false
             })
 
