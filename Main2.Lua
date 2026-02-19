@@ -41,6 +41,14 @@ function Noxium:CreateWindow(TitleText)
         })
     })
 
+    -- TÍTULO (Para que se vea al minimizar)
+    local Title = Create("TextLabel", {
+        Name = "Title", Parent = Main, Size = UDim2.new(1, -40, 0, 35),
+        Position = UDim2.new(0, 10, 0, 3), BackgroundTransparency = 1,
+        Text = TitleText, Font = "GothamBold", TextSize = 14, 
+        TextColor3 = self.Theme.Text, TextXAlignment = "Left"
+    })
+
     local ToggleBtn = Create("TextButton", {
         Name = "ToggleBtn", Parent = Main, Size = UDim2.new(0, 30, 0, 30),
         Position = UDim2.new(1, -35, 0, 5), BackgroundTransparency = 1,
@@ -49,28 +57,35 @@ function Noxium:CreateWindow(TitleText)
 
     local TabHolder = Create("Frame", {
         Name = "TabHolder", Parent = Main, BackgroundTransparency = 1,
-        Size = UDim2.new(1, -40, 0, 35), Position = UDim2.new(0, 5, 0, 5)
+        Size = UDim2.new(1, -40, 0, 35), Position = UDim2.new(0, 5, 0, 35) -- Ajustado para no chocar con título
     })
     Create("UIListLayout", {Parent = TabHolder, FillDirection = "Horizontal", Padding = UDim.new(0, 8), VerticalAlignment = "Center"})
 
     local Pages = Create("Frame", {
         Name = "Pages", Parent = Main, BackgroundTransparency = 1,
-        Size = UDim2.new(1, -20, 1, -60), Position = UDim2.new(0, 10, 0, 50)
+        Size = UDim2.new(1, -20, 1, -85), Position = UDim2.new(0, 10, 0, 75)
     })
 
     local CurrentTab = nil
 
-    -- Lógica de minimizar
+    -- Lógica de minimizar CORREGIDA
     ToggleBtn.MouseButton1Click:Connect(function()
         IsMinimized = not IsMinimized
+        
+        -- Animación de tamaño
         TS:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = IsMinimized and MinSize or FullSize}):Play()
+        
+        -- Ocultar/Mostrar contenido para que no se vea al minimizar
+        TabHolder.Visible = not IsMinimized
+        Pages.Visible = not IsMinimized
+        
         ToggleBtn.Text = IsMinimized and "▼" or "▲"
     end)
 
     -- Drag System
     local dragging, dragStart, startPos
     Main.InputBegan:Connect(function(input)
-        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and not IsMinimized then
+        if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
             dragging = true dragStart = input.Position startPos = Main.Position
         end
     end)
