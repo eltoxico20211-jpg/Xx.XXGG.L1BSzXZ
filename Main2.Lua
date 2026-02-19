@@ -18,7 +18,6 @@ local function Create(class, props)
 end
 
 function Noxium:CreateWindow(TitleText)
-    -- Referencia local segura para evitar el error de NIL
     local Theme = Noxium.Theme 
     local Screen = Create("ScreenGui", {Name = "Noxium_Lib", Parent = CoreGui})
     
@@ -30,11 +29,9 @@ function Noxium:CreateWindow(TitleText)
         Name = "Main", Parent = Screen, Size = FullSize,
         Position = UDim2.new(0.5, -175, 0.5, -125),
         BackgroundColor3 = Color3.new(1,1,1), BorderSizePixel = 0,
-        Active = true, ClipsDescendants = true
+        Active = true, ClipsDescendants = false -- Cambiado a false para que el stroke no se muerda
     })
     Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
-    
-    -- Usamos la variable 'Theme' local que es 100% segura
     local Stroke = Create("UIStroke", {Color = Theme.Accent, Thickness = 1.5, Parent = Main})
 
     local MainGrad = Create("UIGradient", {
@@ -66,7 +63,8 @@ function Noxium:CreateWindow(TitleText)
 
     local Pages = Create("Frame", {
         Name = "Pages", Parent = Main, BackgroundTransparency = 1,
-        Size = UDim2.new(1, -20, 1, -85), Position = UDim2.new(0, 10, 0, 75)
+        Size = UDim2.new(1, -20, 1, -85), Position = UDim2.new(0, 10, 0, 75),
+        ClipsDescendants = false
     })
 
     local CurrentTab = nil
@@ -104,16 +102,14 @@ function Noxium:CreateWindow(TitleText)
             Parent = Pages, Size = UDim2.new(1, 0, 1, 0),
             BackgroundTransparency = 1, Visible = false, ScrollBarThickness = 0, 
             CanvasSize = UDim2.new(0,0,0,0), AutomaticCanvasSize = "Y",
-            ClipsDescendants = false
+            ClipsDescendants = false -- Permitimos que el stroke se vea fuera del límite
         })
 
         Create("UIPadding", {
-        Parent = Page,
-        PaddingTop = UDim.new(0, 5),
-        PaddingBottom = UDim.new(0, 5),
-        PaddingLeft = UDim.new(0, 5),
-        PaddingRight = UDim.new(0, 5)
-    })
+            Parent = Page,
+            PaddingTop = UDim.new(0, 5), PaddingBottom = UDim.new(0, 5),
+            PaddingLeft = UDim.new(0, 5), PaddingRight = UDim.new(0, 5)
+        })
 
         Create("UIListLayout", {Parent = Page, Padding = UDim.new(0, 5), HorizontalAlignment = "Center"})
 
@@ -153,48 +149,46 @@ function Noxium:CreateWindow(TitleText)
             Btn.MouseButton1Click:Connect(callback)
         end
 
-    function ElementHandler:Toggle(text, callback)
-    local state = false
-    local Tgl = Create("TextButton", {
-        Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
-        BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
-        Text = text, Font = "GothamBold", 
-        TextColor3 = Theme.Text, TextSize = 13,
-        AutoButtonColor = false -- Evita que Roblox cambie colores por su cuenta
-    })
-    
-    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
+        function ElementHandler:Toggle(text, callback)
+            local state = false
+            local Tgl = Create("TextButton", {
+                Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
+                BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
+                Text = text, Font = "GothamBold", 
+                TextColor3 = Theme.Text, TextSize = 13,
+                AutoButtonColor = false
+            })
+            
+            Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
 
-    -- Forzamos el Stroke al borde del botón
-    local TglStroke = Create("UIStroke", {
-        Parent = Tgl,
-        Color = Theme.Black,
-        Thickness = 1.5,
-        ApplyStrokeMode = Enum.ApplyStrokeMode.Border, -- Esto lo mantiene en el borde
-        Enabled = false
-    })
+            local TglStroke = Create("UIStroke", {
+                Parent = Tgl,
+                Color = Theme.Black,
+                Thickness = 1.5,
+                ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+                Enabled = false
+            })
 
-    local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
-        Color = Theme.Accent
-    })
-    
-    Tgl.MouseButton1Click:Connect(function()
-        state = not state
-        TglStroke.Enabled = state
-        
-        if state then
-            Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
-            StrokeTween:Play()
-        else
-            Tgl.TextColor3 = Theme.Text
-            StrokeTween:Cancel()
-            -- CORRECCIÓN: Regresamos a Negro, no a Blanco
-            TglStroke.Color = Theme.Black
+            local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
+                Color = Theme.Accent
+            })
+            
+            Tgl.MouseButton1Click:Connect(function()
+                state = not state
+                TglStroke.Enabled = state
+                
+                if state then
+                    Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
+                    StrokeTween:Play()
+                else
+                    Tgl.TextColor3 = Theme.Text
+                    StrokeTween:Cancel()
+                    TglStroke.Color = Theme.Black
+                end
+                
+                callback(state)
+            end)
         end
-        
-        callback(state)
-    end)
-end
 
         return ElementHandler
     end
