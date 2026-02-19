@@ -159,7 +159,7 @@ function Noxium:CreateWindow(TitleText)
             Tgl.MouseButton1Click:Connect(function()
                 state = not state
                 Tgl.Text = text .. (state and ": ON" or ": OFF")
-                Tgl.TextColor3 = state and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(255, 100, 100)
+                Tgl.TextColor3 = state and Color3.fromRGB(100, 255, 100) or Color3.fromRGB(255, 255, 255)
                 callback(state)
             end)
         end
