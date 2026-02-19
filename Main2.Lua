@@ -18,6 +18,8 @@ local function Create(class, props)
 end
 
 function Noxium:CreateWindow(TitleText)
+    -- Referencia local segura para evitar el error de NIL
+    local Theme = Noxium.Theme 
     local Screen = Create("ScreenGui", {Name = "Noxium_Lib", Parent = CoreGui})
     
     local IsMinimized = false
@@ -31,33 +33,34 @@ function Noxium:CreateWindow(TitleText)
         Active = true, ClipsDescendants = true
     })
     Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
-    local Stroke = Create("UIStroke", {Color = Noxium.Theme.Accent, Thickness = 1.5, Parent = Main})
+    
+    -- Usamos la variable 'Theme' local que es 100% segura
+    local Stroke = Create("UIStroke", {Color = Theme.Accent, Thickness = 1.5, Parent = Main})
 
     local MainGrad = Create("UIGradient", {
         Parent = Main, Rotation = 45,
         Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Noxium.Theme.Accent),
-            ColorSequenceKeypoint.new(1, Noxium.Theme.Black)
+            ColorSequenceKeypoint.new(0, Theme.Accent),
+            ColorSequenceKeypoint.new(1, Theme.Black)
         })
     })
 
-    -- TÍTULO (Para que se vea al minimizar)
     local Title = Create("TextLabel", {
         Name = "Title", Parent = Main, Size = UDim2.new(1, -40, 0, 35),
         Position = UDim2.new(0, 10, 0, 3), BackgroundTransparency = 1,
         Text = TitleText, Font = "GothamBold", TextSize = 14, 
-        TextColor3 = Noxium.Theme.Text, TextXAlignment = "Left"
+        TextColor3 = Theme.Text, TextXAlignment = "Left"
     })
 
     local ToggleBtn = Create("TextButton", {
         Name = "ToggleBtn", Parent = Main, Size = UDim2.new(0, 30, 0, 30),
         Position = UDim2.new(1, -35, 0, 5), BackgroundTransparency = 1,
-        Text = "▲", Font = "GothamBold", TextSize = 14, TextColor3 = Noxium.Theme.Text, ZIndex = 10
+        Text = "▲", Font = "GothamBold", TextSize = 14, TextColor3 = Theme.Text, ZIndex = 10
     })
 
     local TabHolder = Create("Frame", {
         Name = "TabHolder", Parent = Main, BackgroundTransparency = 1,
-        Size = UDim2.new(1, -40, 0, 35), Position = UDim2.new(0, 5, 0, 35) -- Ajustado para no chocar con título
+        Size = UDim2.new(1, -40, 0, 35), Position = UDim2.new(0, 5, 0, 35)
     })
     Create("UIListLayout", {Parent = TabHolder, FillDirection = "Horizontal", Padding = UDim.new(0, 8), VerticalAlignment = "Center"})
 
@@ -68,21 +71,14 @@ function Noxium:CreateWindow(TitleText)
 
     local CurrentTab = nil
 
-    -- Lógica de minimizar CORREGIDA
     ToggleBtn.MouseButton1Click:Connect(function()
         IsMinimized = not IsMinimized
-        
-        -- Animación de tamaño
         TS:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = IsMinimized and MinSize or FullSize}):Play()
-        
-        -- Ocultar/Mostrar contenido para que no se vea al minimizar
         TabHolder.Visible = not IsMinimized
         Pages.Visible = not IsMinimized
-        
         ToggleBtn.Text = IsMinimized and "▼" or "▲"
     end)
 
-    -- Drag System
     local dragging, dragStart, startPos
     Main.InputBegan:Connect(function(input)
         if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then
@@ -97,7 +93,6 @@ function Noxium:CreateWindow(TitleText)
     end)
     UIS.InputEnded:Connect(function(input) if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then dragging = false end end)
 
-    -- Animación Gradient
     task.spawn(function()
         TS:Create(MainGrad, TweenInfo.new(4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {Rotation = 225}):Play()
     end)
@@ -114,25 +109,25 @@ function Noxium:CreateWindow(TitleText)
 
         local TabBtn = Create("TextButton", {
             Parent = TabHolder, Size = UDim2.new(0, 80, 0, 25),
-            BackgroundColor3 = Noxium.Theme.Black, BackgroundTransparency = 0.6,
-            Text = name, Font = "GothamBold", TextSize = 11, TextColor3 = Noxium.Theme.Placeholder
+            BackgroundColor3 = Theme.Black, BackgroundTransparency = 0.6,
+            Text = name, Font = "GothamBold", TextSize = 11, TextColor3 = Theme.Placeholder
         })
         Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = TabBtn})
 
         TabBtn.MouseButton1Click:Connect(function()
             if CurrentTab then
                 CurrentTab.Page.Visible = false
-                TS:Create(CurrentTab.Btn, TweenInfo.new(0.3), {TextColor3 = Noxium.Theme.Placeholder, BackgroundTransparency = 0.6}):Play()
+                TS:Create(CurrentTab.Btn, TweenInfo.new(0.3), {TextColor3 = Theme.Placeholder, BackgroundTransparency = 0.6}):Play()
             end
             Page.Visible = true
             CurrentTab = {Page = Page, Btn = TabBtn}
-            TS:Create(TabBtn, TweenInfo.new(0.3), {TextColor3 = Noxium.Theme.Text, BackgroundTransparency = 0.2}):Play()
+            TS:Create(TabBtn, TweenInfo.new(0.3), {TextColor3 = Theme.Text, BackgroundTransparency = 0.2}):Play()
         end)
 
         if not CurrentTab then
             Page.Visible = true
             CurrentTab = {Page = Page, Btn = TabBtn}
-            TabBtn.TextColor3 = Noxium.Theme.Text
+            TabBtn.TextColor3 = Theme.Text
             TabBtn.BackgroundTransparency = 0.2
         end
 
@@ -142,52 +137,50 @@ function Noxium:CreateWindow(TitleText)
             local Btn = Create("TextButton", {
                 Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
                 BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
-                Text = text, Font = "GothamBold", TextColor3 = Noxium.Theme.Text, TextSize = 13
+                Text = text, Font = "GothamBold", TextColor3 = Theme.Text, TextSize = 13
             })
             Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Btn})
             Btn.MouseButton1Click:Connect(callback)
         end
 
         function ElementHandler:Toggle(text, callback)
-    local state = false
-    -- Usamos Noxium.Theme directamente para que NUNCA sea nil
-    local Tgl = Create("TextButton", {
-        Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
-        BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
-        Text = text, Font = "GothamBold", 
-        TextColor3 = Noxium.Theme.Text, TextSize = 13
-    })
-    
-    Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
+            local state = false
+            local Tgl = Create("TextButton", {
+                Parent = Page, Size = UDim2.new(0.95, 0, 0, 35),
+                BackgroundColor3 = Color3.fromRGB(30, 30, 30), BackgroundTransparency = 0.5,
+                Text = text, Font = "GothamBold", 
+                TextColor3 = Theme.Text, TextSize = 13
+            })
+            
+            Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
 
-    local TglStroke = Create("UIStroke", {
-        Parent = Tgl,
-        Color = Noxium.Theme.Black,
-        Thickness = 1.6,
-        Enabled = false
-    })
+            local TglStroke = Create("UIStroke", {
+                Parent = Tgl,
+                Color = Color3.fromRGB(255, 255, 255),
+                Thickness = 1.6,
+                Enabled = false
+            })
 
-    -- Efecto Sine como el de tu Main
-    local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
-        Color = Noxium.Theme.Accent
-    })
-    
-    Tgl.MouseButton1Click:Connect(function()
-        state = not state
-        TglStroke.Enabled = state
-        
-        if state then
-            Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
-            StrokeTween:Play()
-        else
-            Tgl.TextColor3 = Noxium.Theme.Text
-            StrokeTween:Cancel()
-            TglStroke.Color = Color3.fromRGB(255, 255, 255)
+            local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
+                Color = Theme.Accent
+            })
+            
+            Tgl.MouseButton1Click:Connect(function()
+                state = not state
+                TglStroke.Enabled = state
+                
+                if state then
+                    Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
+                    StrokeTween:Play()
+                else
+                    Tgl.TextColor3 = Theme.Text
+                    StrokeTween:Cancel()
+                    TglStroke.Color = Color3.fromRGB(255, 255, 255)
+                end
+                
+                callback(state)
+            end)
         end
-        
-        callback(state)
-    end)
-end
 
         return ElementHandler
     end
