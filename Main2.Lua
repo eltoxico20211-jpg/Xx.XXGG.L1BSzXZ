@@ -156,8 +156,8 @@ function Noxium:CreateWindow(TitleText)
 
             local TglStroke = Create("UIStroke", {
                 Parent = Tgl,
-                Color = Color3.fromRGB(255, 255, 255),
-                Thickness = 1.6,
+                Color = Theme.Black,
+                Thickness = 1,
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                 Enabled = false
             })
