@@ -158,13 +158,30 @@ function Noxium:CreateWindow(TitleText)
     })
     
     Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Tgl})
+
+    local TglStroke = Create("UIStroke", {
+        Parent = Tgl,
+        Color = Color3.fromRGB(255, 255, 255),
+        Thickness = 1.6,
+        Enabled = false
+      })
+
+    local StrokeTween = TS:Create(TglStroke, TweenInfo.new(2, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true), {
+        Color = Color3.fromRGB(0, 255, 0) -- Va de blanco/verde a este color
+    })
     
     Tgl.MouseButton1Click:Connect(function()
         state = not state
 
-        Tgl.Text = state and text .. ": ON" or text
-
-        Tgl.TextColor3 = state and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 255, 255)
+        TglStroke.Enabled = state
+        if state then
+            Tgl.TextColor3 = Color3.fromRGB(0, 255, 0)
+            StrokeTween:Play()
+        else
+            Tgl.TextColor3 = Color3.fromRGB(255, 255, 255)
+            StrokeTween:Cancel()
+            TglStroke.Color = Color3.fromRGB(255, 255, 255) -- Reset al apagar
+        end
         
         callback(state)
     end)
