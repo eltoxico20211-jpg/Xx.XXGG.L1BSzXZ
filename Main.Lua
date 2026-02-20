@@ -138,7 +138,7 @@ IsoneUI.Windows = {
     CurrentWindow = nil,
     Create = function(self, TitleText)
         local Screen = Create("ScreenGui", {Name = "Isone_Root", Parent = IsoneUI.Services.CoreGui, IgnoreGuiInset = true, ResetOnSpawn = false})
-        local Main = Create("Frame", {Name = "MainFrame", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.DarkRed, Visible = false, BackgroundTransparency = 0, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260), ClipsDescendants = true})
+        local Main = Create("Frame", {Name = "MainFrame", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260), ClipsDescendants = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
         Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Main})
         Create("UIAspectRatioConstraint", {AspectRatio = 1.538, AspectType = "ScaleWithParentSize", Parent = Main})
@@ -169,10 +169,6 @@ OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
         local Sidebar = Create("Frame", {Name = "Sidebar", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Position = UDim2.new(0, 0, 0, 37), Size = UDim2.new(0, 130, 1, -38)})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Sidebar})
         local Container = Create("Frame", {Name = "Container", Parent = Main, BackgroundTransparency = 1, Position = UDim2.new(0, 140, 0, 40), Size = UDim2.new(1, -145, 1, -45)})
-
-        IsoneUI:StartIntro(function()
-            Main.Visible = true
-        end)
         
         self.CurrentWindow = {Main = Main, Container = Container, Sidebar = Sidebar, Screen = Screen}
         return self.CurrentWindow
