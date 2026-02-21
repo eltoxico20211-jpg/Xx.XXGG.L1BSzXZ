@@ -313,6 +313,10 @@ end
     function GroupHandler:CreateInput(t, p, c)
     return Elements.CreateInput(Elements, GroupScroll, t, p, c)
 end
+
+    function GroupHandler:CreateLabel(t)
+    return Elements.CreateLabel(Elements, GroupScroll, t)
+end
     
     return GroupHandler
 end
@@ -411,12 +415,11 @@ end
         Open = false
     }
     
-    -- Contenedor invisible que controla el espacio en la lista
     local DropMain = Create("Frame", {
         Parent = Parent,
         Size = UDim2.new(1, -10, 0, 32),
         BackgroundTransparency = 1,
-        ClipsDescendants = false -- Importante para que el cuadro se vea al salir
+        ClipsDescendants = false
     })
 
     local Label = Create("TextLabel", {
@@ -431,7 +434,6 @@ end
         TextXAlignment = "Left"
     })
 
-    -- El cuadro de la derecha que SI se expande y tiene fondo
     local DropContainer = Create("Frame", {
         Parent = DropMain,
         Size = UDim2.new(0, 100, 0, 24),
@@ -477,7 +479,6 @@ end
         local ListSize = Layout.AbsoluteContentSize.Y
         -- Altura del cuadro de la derecha
         local TargetDropSize = Dropdown.Open and UDim2.new(0, 100, 0, ListSize + 35) or UDim2.new(0, 100, 0, 24)
-        -- Altura que el contenedor principal ocupa en la UI (para desplazar lo demás)
         local TargetMainHeight = Dropdown.Open and (ListSize + 40) or 32
 
         IsoneUI:Tween(DropContainer, 0.25, {Size = TargetDropSize})
@@ -691,3 +692,38 @@ function Elements:CreateInput(Parent, Text, Placeholder, Callback)
 
     return Input
 end
+
+function Elements:CreateLabel(Parent, Text)
+    local Label = {
+        Value = Text
+    }
+
+    local LabelMain = Create("Frame", {
+        Parent = Parent,
+        Size = UDim2.new(1, -10, 0, 25),
+        BackgroundTransparency = 1,
+    })
+
+    local TextLabel = Create("TextLabel", {
+        Parent = LabelMain,
+        Size = UDim2.new(1, -20, 1, 0),
+        Position = UDim2.new(0, 12, 0, 0),
+        BackgroundTransparency = 1,
+        Text = Text,
+        Font = "GothamMedium",
+        TextColor3 = IsoneUI.Theme.TextDark,
+        TextSize = 11,
+        RichText = true,
+        TextXAlignment = "Left",
+        TextWrapped = true
+    })
+
+    function Label:Set(NewText)
+        Label.Value = NewText
+        TextLabel.Text = NewText
+    end
+
+    return Label
+end
+    
+return IsoneUI
