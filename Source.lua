@@ -31,7 +31,7 @@ function IsoneUI:Tween(obj, time, prop)
     return anim
 end
 
-function IsoneUI:CreateWindow(TitleText)
+function IsoneUI:CreateWindow(Name, Version)
 
     local Title = string.format("%s <font color='#FF0000'>%s</font>", Name or "ISONE", Version or "V2")
     
