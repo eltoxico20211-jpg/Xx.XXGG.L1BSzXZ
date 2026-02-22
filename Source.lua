@@ -32,6 +32,9 @@ function IsoneUI:Tween(obj, time, prop)
 end
 
 function IsoneUI:CreateWindow(TitleText)
+
+    local Title = string.format("%s <font color='#FF0000'>%s</font>", Name or "ISONE", Version or "V2")
+    
     local Screen = Create("ScreenGui", {Name = "Isone_Radical", Parent = IsoneUI.Services.CoreGui, IgnoreGuiInset = true})
     
     local Main = Create("Frame", {
@@ -75,7 +78,7 @@ Create("UIStroke", {Color = IsoneUI.Theme.Accent, Thickness = 1.5, Parent = Open
         Position = UDim2.new(0, 15, 0, 0),
         Size = UDim2.new(0, 100, 1, 0),
         BackgroundTransparency = 1,
-        Text = TitleName or "ISONE <font color='#FF0000'>V2</font>",
+        Text = Title,
         RichText = true,
         Font = "GothamBold",
         TextColor3 = self.Theme.Text,
