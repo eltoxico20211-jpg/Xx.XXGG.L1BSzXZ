@@ -75,7 +75,7 @@ Create("UIStroke", {Color = IsoneUI.Theme.Accent, Thickness = 1.5, Parent = Open
         Position = UDim2.new(0, 15, 0, 0),
         Size = UDim2.new(0, 100, 1, 0),
         BackgroundTransparency = 1,
-        Text = Name or "ISONE <font color='#FF0000'>V2</font>"
+        Text = TitleName or "ISONE <font color='#FF0000'>V2</font>"
         RichText = true,
         Font = "GothamBold",
         TextColor3 = self.Theme.Text,
