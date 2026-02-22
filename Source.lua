@@ -573,7 +573,7 @@ end
         Parent = SliderFill,
         Size = UDim2.new(0, 12, 0, 12),
         Position = UDim2.new(1, -6, 0.5, -6),
-        BackgroundColor3 = IsoneUI.Theme.Text,
+        BackgroundColor3 = IsoneUI.Theme.Accent,
     })
     Create("UICorner", {CornerRadius = UDim.new(1, 0), Parent = Knob})
 
