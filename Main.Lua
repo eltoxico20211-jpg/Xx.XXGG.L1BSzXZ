@@ -106,22 +106,24 @@ IsoneUI.Fluid = function(obj, targetSize, duration, style)
 end
 
 function IsoneUI:ToggleUI(state)
-    local Main = self.MainHolder
+    local Main = self.MainHolder or self.Main
     local OpenBtn = self.OpenBtn
     
     if state then
         Main.Visible = true
         self:Tween(Main, 0.5, {Position = UDim2.new(0.5, -200, 0.5, -130)})
-        OpenBtn.Visible = false
+        self:Tween(OpenBtn, 0.3, {BackgroundTransparency = 1, ImageTransparency = 1}):Story(function()
+            OpenBtn.Visible = false
+        end)
     else
         local Anim = self:Tween(Main, 0.4, {Position = UDim2.new(0.5, -200, 1.5, 0)})
         Anim.Completed:Connect(function()
             Main.Visible = false
             OpenBtn.Visible = true
+            self:Tween(OpenBtn, 0.3, {BackgroundTransparency = 0.3, ImageTransparency = 0})
         end)
     end
 end
-
 -- PARTE 3 --
 
 IsoneUI.Windows = {
@@ -148,6 +150,7 @@ local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoi
 
         IsoneUI.Main = Main
         IsoneUI.OpenBtn = OpenBtn
+        IsoneUI.MainHolder = Holder
 
         local Close = Create("TextButton", {Name = "Close", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -30, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "×", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20})
         Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Close})
