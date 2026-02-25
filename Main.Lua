@@ -106,19 +106,19 @@ IsoneUI.Fluid = function(obj, targetSize, duration, style)
 end
 
 function IsoneUI:ToggleUI(state)
-    local Main = self.Main
+    local Holder = self.Main
     local OpenBtn = self.OpenBtn
     
-    if not Main or not OpenBtn then return end
+    if not Holder or not OpenBtn then return end
     
     if state then
-        Main.Visible = true
-        self:Tween(Main, 0.5, {Position = UDim2.new(0, 0, 0, 0)}) -- Ajustado a la pos original del MainFrame
+        Holder.Visible = true
+        local Anim = self:Tween(Holder, 0.5, {Position = UDim2.new(0.5, -200, 0.5, -130)})
         OpenBtn.Visible = false
     else
-        local Anim = self:Tween(Main, 0.4, {Position = UDim2.new(0, 0, 1.5, 0)})
+        local Anim = self:Tween(Holder, 0.4, {Position = UDim2.new(0.5, -200, 1.5, 0)})
         Anim.Completed:Connect(function()
-            Main.Visible = false
+            Holder.Visible = false
             OpenBtn.Visible = true
         end)
     end
@@ -160,7 +160,7 @@ local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoi
         Min.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(false) end)
 OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
 
-        IsoneUI:MakeDraggable(Main, Header)
+        IsoneUI:MakeDraggable(Holder)
 
         local Sidebar = Create("Frame", {Name = "Sidebar", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Position = UDim2.new(0, 0, 0, 37), Size = UDim2.new(0, 130, 1, -38)})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Sidebar})
