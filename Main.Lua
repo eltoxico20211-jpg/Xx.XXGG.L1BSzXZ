@@ -105,20 +105,28 @@ IsoneUI.Fluid = function(obj, targetSize, duration, style)
     return connection
 end
 
-function IsoneUI:ToggleUI(state)
-    local Holder = self.Main
+IsoneUI.ToggleUI = function(self, state)
+    local Main = self.Main
     local OpenBtn = self.OpenBtn
     
-    if not self.Main then return end
-    
     if state then
-        Holder.Visible = true
-        local Anim = self:Tween(Holder, 0.5, {Position = UDim2.new(0.5, -200, 0.5, -130)})
+        Main.Visible = true
+        Main.Position = UDim2.new(0.5, -200, 1.5, 0) 
+        Main.BackgroundTransparency = 0
+
+        self:Tween(Main, 0.5, {
+            Position = UDim2.new(0.5, -200, 0.5, -130), 
+            BackgroundTransparency = 0
+        })
         OpenBtn.Visible = false
     else
-        local Anim = self:Tween(Holder, 0.4, {Position = UDim2.new(0.5, -200, 1.5, 0)})
+        local Anim = self:Tween(Main, 0.4, {
+            Position = UDim2.new(0.5, -200, 1.5, 0),
+            BackgroundTransparency = 1
+        })
+        
         Anim.Completed:Connect(function()
-            Holder.Visible = false
+            Main.Visible = false
             OpenBtn.Visible = true
         end)
     end
@@ -130,14 +138,12 @@ IsoneUI.Windows = {
     CurrentWindow = nil,
     Create = function(self, TitleText)
         local Screen = Create("ScreenGui", {Name = "Isone_Root", Parent = IsoneUI.Services.CoreGui, IgnoreGuiInset = true, ResetOnSpawn = false})
-
-        local Holder = Create("Frame", {Name = "MainHolder", Parent = Screen, BackgroundTransparency = 1, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260), ZIndex = 1})
-        local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Position = UDim2.new(0.5, 0, 0.5, 0), Size = UDim2.new(1, 15, 1, 15), ZIndex = 1, Image = "rbxassetid://100288537660010", ImageColor3 = Color3.fromRGB(0, 0, 0), ImageTransparency = 0.5, ScaleType = "Slice", SliceCenter = Rect.new(49, 49, 450, 450)})
-
-        local Main = Create("Frame", {Name = "MainFrame", Parent = Holder, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0, Position = UDim2.new(0, 0, 0, 0), Size = UDim2.new(1, 0, 1, 0), ClipsDescendants = true, ZIndex = 2})
+        local Main = Create("Frame", {Name = "MainFrame", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260)})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
         Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Main})
-        Create("UIAspectRatioConstraint", {AspectRatio = 1.538, AspectType = "ScaleWithParentSize", Parent = Holder})
+        Create("UIAspectRatioConstraint", {AspectRatio = 1.538, AspectType = "ScaleWithParentSize", Parent = Main})
+
+        local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Main, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 0.5, Position = UDim2.new(0.5, 0, 0.5, 0), Size = UDim2.new(1, 45, 1, 45), ZIndex = -1, Image = "rbxassetid://100288537660010", ImageColor3 = Color3.fromRGB(0, 0, 0), ImageTransparency = 0.5, ScaleType = "Slice", SliceCenter = Rect.new(49, 49, 450, 450)})
         
         local Header = Create("Frame", {Name = "Header", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Size = UDim2.new(1, 0, 0, 35)})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Header})
@@ -145,10 +151,10 @@ IsoneUI.Windows = {
 
         local OpenBtn = Create("TextButton", {Name = "OpenBtn", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.Secondary, BackgroundTransparency = 0.3, Size = UDim2.new(0.15, 40, 0.05, 0), Position = UDim2.new(0.5, 0, 0.05, 0), AnchorPoint = Vector2.new(0.5, 0.5), Visible = false, Text = TitleText, Font = "GothamBold", TextColor3 = IsoneUI.Theme.Accent, TextSize = 13, TextScaled = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 15), Parent = OpenBtn}); Create("UIStroke", {Color = IsoneUI.Theme.Accent, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = OpenBtn})
-        Create("UIAspectRatioConstraint", {Parent = OpenBtn, AspectRatio = 2.667})
-        IsoneUI:MakeDraggable(Holder, OpenBtn)
+         Create("UIAspectRatioConstraint", {Parent = OpenBtn, AspectRatio = 2.667})
+        IsoneUI:MakeDraggable(OpenBtn, OpenBtn)
 
-        IsoneUI.Main = Holder
+        IsoneUI.Main = Main
         IsoneUI.OpenBtn = OpenBtn
 
         local Close = Create("TextButton", {Name = "Close", Parent = Header, BackgroundTransparency = 1, Position = UDim2.new(1, -30, 0, 0), Size = UDim2.new(0, 30, 1, 0), Text = "×", Font = "GothamMedium", TextColor3 = IsoneUI.Theme.Text, TextSize = 20})
@@ -158,13 +164,13 @@ IsoneUI.Windows = {
 
         Close.MouseButton1Click:Connect(function() Screen:Destroy() end)
         Min.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(false) end)
-        OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
+OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
 
-        IsoneUI:MakeDraggable(Holder, Header)
+        IsoneUI:MakeDraggable(Main, Header)
 
-        local Sidebar = Create("Frame", {Name = "Sidebar", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Position = UDim2.new(0, 0, 0, 37), Size = UDim2.new(0, 130, 1, -38)})
+        local Sidebar = Create("Frame", {Name = "Sidebar", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Position = UDim2.new(0, 0, 0, 37), Size = UDim2.new(0, 130, 1, -38), ClipsDescendants = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Sidebar})
-        local Container = Create("Frame", {Name = "Container", Parent = Main, BackgroundTransparency = 1, Position = UDim2.new(0, 140, 0, 40), Size = UDim2.new(1, -145, 1, -45)})
+        local Container = Create("Frame", {Name = "Container", Parent = Main, BackgroundTransparency = 1, Position = UDim2.new(0, 140, 0, 40), Size = UDim2.new(1, -145, 1, -45), ClipsDescendants = true})
         
         self.CurrentWindow = {Main = Main, Container = Container, Sidebar = Sidebar, Screen = Screen}
         return self.CurrentWindow
