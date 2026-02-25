@@ -132,7 +132,7 @@ IsoneUI.Windows = {
         local Screen = Create("ScreenGui", {Name = "Isone_Root", Parent = IsoneUI.Services.CoreGui, IgnoreGuiInset = true, ResetOnSpawn = false})
 
         local Holder = Create("Frame", {Name = "MainHolder", Parent = Screen, BackgroundTransparency = 1, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260)})
-        local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Position = UDim2.new(0.5, 0, 0.5, 0), Size = UDim2.new(1, 75, 1, 75), ZIndex = -1, Image = "rbxassetid://100288537660010", ImageColor3 = Color3.fromRGB(0, 0, 0), ImageTransparency = 0.5, ScaleType = "Slice", SliceCenter = Rect.new(49, 49, 450, 450)})
+        local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Position = UDim2.new(0.5, 0, 0.5, 0), Size = UDim2.new(1, 20, 1, 20), ZIndex = -1, Image = "rbxassetid://100288537660010", ImageColor3 = Color3.fromRGB(0, 0, 0), ImageTransparency = 0.5, ScaleType = "Slice", SliceCenter = Rect.new(49, 49, 450, 450)})
 
         local Main = Create("Frame", {Name = "MainFrame", Parent = Holder, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0, Position = UDim2.new(0, 0, 0, 0), Size = UDim2.new(0, 400, 0, 260), ClipsDescendants = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
