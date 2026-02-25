@@ -134,7 +134,7 @@ IsoneUI.Windows = {
         local Holder = Create("Frame", {Name = "MainHolder", Parent = Screen, BackgroundTransparency = 1, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260)})
         local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Position = UDim2.new(0.5, 0, 0.5, 0), Size = UDim2.new(1, 15, 1, 15), ZIndex = 0, Image = "rbxassetid://100288537660010", ImageColor3 = Color3.fromRGB(0, 0, 0), ImageTransparency = 0.5, ScaleType = "Slice", SliceCenter = Rect.new(49, 49, 450, 450)})
 
-        local Main = Create("Frame", {Name = "MainFrame", Parent = Holder, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0, Position = UDim2.new(0, 0, 0, 0), Size = UDim2.new(0, 400, 0, 260), ClipsDescendants = true, ZIndex = 1})
+        local Main = Create("Frame", {Name = "MainFrame", Parent = Holder, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0, Position = UDim2.new(0, 0, 0, 0), Size = UDim2.new(1, 0, 1, 0), ClipsDescendants = true, ZIndex = 1})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
         Create("UIStroke", {Color = IsoneUI.Theme.Stroke, Thickness = 1, Parent = Main})
         Create("UIAspectRatioConstraint", {AspectRatio = 1.538, AspectType = "ScaleWithParentSize", Parent = Holder})
