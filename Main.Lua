@@ -109,7 +109,7 @@ function IsoneUI:ToggleUI(state)
     local Holder = self.Main
     local OpenBtn = self.OpenBtn
     
-    if not Holder or not OpenBtn then return end
+    if not self.Main then return end
     
     if state then
         Holder.Visible = true
@@ -160,7 +160,7 @@ local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoi
         Min.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(false) end)
 OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
 
-        IsoneUI:MakeDraggable(Holder)
+        IsoneUI:MakeDraggable(Holder, Header)
 
         local Sidebar = Create("Frame", {Name = "Sidebar", Parent = Main, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0.2, Position = UDim2.new(0, 0, 0, 37), Size = UDim2.new(0, 130, 1, -38)})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Sidebar})
