@@ -1,6 +1,6 @@
 local IsoneUI = {
     Theme = {
-        Main = Color3.fromRGB(10, 10, 10),
+        Main = Color3.fromRGB(0, 0, 0),
         Secondary = Color3.fromRGB(15, 15, 15),
         DarkRed = Color3.fromRGB(0, 0, 0),
         ElementsDark = Color3.fromRGB(20, 20, 20),
