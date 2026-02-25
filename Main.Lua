@@ -132,7 +132,7 @@ IsoneUI.Windows = {
         local Screen = Create("ScreenGui", {Name = "Isone_Root", Parent = IsoneUI.Services.CoreGui, IgnoreGuiInset = true, ResetOnSpawn = false})
 
         local Holder = Create("Frame", {Name = "MainHolder", Parent = Screen, BackgroundTransparency = 1, Position = UDim2.new(0.5, -200, 0.5, -130), Size = UDim2.new(0, 400, 0, 260)})
-        local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Position = UDim2.new(0.5, 0, 0.5, 0), Size = UDim2.new(1, 15, 1, 15), ZIndex = -1, Image = "rbxassetid://100288537660010", ImageColor3 = Color3.fromRGB(0, 0, 0), ImageTransparency = 0.5, ScaleType = "Slice", SliceCenter = Rect.new(49, 49, 450, 450)})
+        local Shadow = Create("ImageLabel", {Name = "Shadow", Parent = Holder, AnchorPoint = Vector2.new(0.5, 0.5), BackgroundTransparency = 1, Position = UDim2.new(0.5, 0, 0.5, 0), Size = UDim2.new(1, 15, 1, 15), ZIndex = 0, Image = "rbxassetid://100288537660010", ImageColor3 = Color3.fromRGB(0, 0, 0), ImageTransparency = 0.5, ScaleType = "Slice", SliceCenter = Rect.new(49, 49, 450, 450)})
 
         local Main = Create("Frame", {Name = "MainFrame", Parent = Holder, BackgroundColor3 = IsoneUI.Theme.DarkRed, BackgroundTransparency = 0, Position = UDim2.new(0, 0, 0, 0), Size = UDim2.new(0, 400, 0, 260), ClipsDescendants = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 10), Parent = Main})
@@ -145,7 +145,7 @@ IsoneUI.Windows = {
 
         local OpenBtn = Create("TextButton", {Name = "OpenBtn", Parent = Screen, BackgroundColor3 = IsoneUI.Theme.Secondary, BackgroundTransparency = 0.3, Size = UDim2.new(0.15, 40, 0.05, 0), Position = UDim2.new(0.5, 0, 0.05, 0), AnchorPoint = Vector2.new(0.5, 0.5), Visible = false, Text = TitleText, Font = "GothamBold", TextColor3 = IsoneUI.Theme.Accent, TextSize = 13, TextScaled = true})
         Create("UICorner", {CornerRadius = UDim.new(0, 15), Parent = OpenBtn}); Create("UIStroke", {Color = IsoneUI.Theme.Accent, Thickness = 1, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = OpenBtn})
-         Create("UIAspectRatioConstraint", {Parent = OpenBtn, AspectRatio = 2.667})
+        Create("UIAspectRatioConstraint", {Parent = OpenBtn, AspectRatio = 2.667})
         IsoneUI:MakeDraggable(Holder, OpenBtn)
 
         IsoneUI.Main = Holder
@@ -158,7 +158,7 @@ IsoneUI.Windows = {
 
         Close.MouseButton1Click:Connect(function() Screen:Destroy() end)
         Min.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(false) end)
-OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
+        OpenBtn.MouseButton1Click:Connect(function() IsoneUI:ToggleUI(true) end)
 
         IsoneUI:MakeDraggable(Holder, Header)
 
